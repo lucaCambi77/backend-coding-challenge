@@ -1,4 +1,4 @@
-package com.journi.challenge.service;
+package com.journi.challenge;
 
 import com.journi.challenge.service.CurrencyConverter;
 import org.junit.jupiter.api.BeforeEach;

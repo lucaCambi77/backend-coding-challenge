@@ -15,7 +15,7 @@ public class ProductService {
     private ProductsRepository productsRepository;
     private CurrencyConverter currencyConverter;
 
-    public List<Product> listProducts() {
+    public List<Product> listProducts(String countryCode) {
 
         List<Product> list = productsRepository.findAll();
 
@@ -24,7 +24,6 @@ public class ProductService {
                 .price(currencyConverter.convertEurToCurrency(p.getCurrencyCode(), p.getPrice()))
                 .currencyCode(p.getCurrencyCode())
                 .build()).collect(Collectors.toList());
-
     }
 
 }

@@ -57,7 +57,7 @@ public class ProductServiceTest {
     @Test
     public void shouldConvertPrices() {
 
-        List<Product> products = productService.listProducts();
+        List<Product> products = productService.listProducts("");
 
         assertEquals(3, products.size());
 
