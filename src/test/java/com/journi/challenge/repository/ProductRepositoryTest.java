@@ -27,14 +27,13 @@ public class ProductRepositoryTest {
         allProducts.add(Product.builder().id("photobook-square-soft-cover").description("Photobook Square with Soft Cover").price(25.0).currencyCode("EUR").build());
         allProducts.add(Product.builder().id("photobook-square-hard-cover").description("Photobook Square with Hard Cover").price(30.0).currencyCode("USD").build());
 
-        when(productsRepository.findAll()).thenReturn(allProducts);
+        when(productsRepository.findByCurrencyCode("XXX")).thenReturn(allProducts);
     }
 
     @Test
     public void shouldFindProducts() {
-        assertEquals(2, productsRepository.findAll().size());
+        assertEquals(2, productsRepository.findByCurrencyCode("XXX").size());
         assertTrue(productsRepository.findAll().stream().anyMatch(p -> p.getCurrencyCode().equals("EUR")));
         assertTrue(productsRepository.findAll().stream().anyMatch(p -> p.getCurrencyCode().equals("USD")));
     }
-
 }

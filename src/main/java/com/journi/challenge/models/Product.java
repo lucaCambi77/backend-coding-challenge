@@ -1,7 +1,9 @@
 package com.journi.challenge.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,15 +22,15 @@ import javax.persistence.Table;
 public class Product {
 
     @Id
-    private final String id;
+    private String id;
 
     @Column
-    private final String description;
+    private String description;
 
     @Column
-    private final Double price;
+    private Double price;
 
     @Column
-    private final String currencyCode;
+    private String currencyCode;
 
 }

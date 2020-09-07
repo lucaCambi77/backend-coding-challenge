@@ -1,5 +1,12 @@
 package com.journi.challenge.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,39 +18,29 @@ import java.util.List;
  * customerName name of the customer
  * totalValue total value of this purchase, in EUR
  */
+@Data
+@Entity
+@Table
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Purchase {
 
-    private final String invoiceNumber;
-    private final LocalDateTime timestamp;
-    private final List<String> productIds;
-    private final String customerName;
-    private final Double totalValue;
+    @Id
+    private String invoiceNumber;
 
-    public Purchase(String invoiceNumber, LocalDateTime timestamp, List<String> productIds, String customerName, Double totalValue) {
-        this.invoiceNumber = invoiceNumber;
-        this.timestamp = timestamp;
-        this.productIds = productIds;
-        this.customerName = customerName;
-        this.totalValue = totalValue;
-    }
+    @Column
+    private LocalDateTime timestamp;
 
-    public String getInvoiceNumber() {
-        return invoiceNumber;
-    }
+    @OneToMany(mappedBy="id")
+    private List<Product> productIds;
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
+    @Column
+    private String customerName;
 
-    public List<String> getProductIds() {
-        return productIds;
-    }
+    @Column
+    private Double totalValue;
 
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public Double getTotalValue() {
-        return totalValue;
-    }
+    @Column
+    private String currencyCode;
 }

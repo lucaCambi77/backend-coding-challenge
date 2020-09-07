@@ -17,7 +17,7 @@ public class ProductService {
 
     public List<Product> listProducts(String countryCode) {
 
-        List<Product> list = productsRepository.findAll();
+        List<Product> list = productsRepository.findByCurrencyCode(currencyConverter.getCurrencyForCountryCode(countryCode));
 
         return list.stream().map(p -> Product.builder().id(p.getId())
                 .description(p.getDescription())
@@ -25,5 +25,4 @@ public class ProductService {
                 .currencyCode(p.getCurrencyCode())
                 .build()).collect(Collectors.toList());
     }
-
 }
