@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-class ProductPurchaseId implements Serializable {
+public class ProductPurchaseId implements Serializable {
 
   @Column(name = "productId")
   private String productId;

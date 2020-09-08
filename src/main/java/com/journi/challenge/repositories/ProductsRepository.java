@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface ProductsRepository extends JpaRepository<Product, String> {
 
-    List<Product> findByCurrencyCode(String currencyCode);
+  List<Product> findByCurrencyCode(String currencyCode);
 }
