@@ -1,10 +1,7 @@
 package com.journi.challenge.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.journi.challenge.models.Product;
-import com.journi.challenge.models.Purchase;
 import com.journi.challenge.models.PurchaseRequest;
-import com.journi.challenge.models.PurchaseStats;
 import com.journi.challenge.service.PurchaseService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,11 +17,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

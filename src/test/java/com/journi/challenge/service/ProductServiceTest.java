@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -59,7 +59,7 @@ public class ProductServiceTest {
   @BeforeEach
   public void setUp() {
 
-    when(productsRepository.findAll()).thenReturn(allProducts);
+    when(productsRepository.findByCurrencyCode("BRL")).thenReturn(allProducts);
 
     ReflectionTestUtils.setField(
         currencyConverter,
@@ -92,7 +92,7 @@ public class ProductServiceTest {
   @Test
   public void shouldConvertPrices() {
 
-    List<Product> products = productService.listProducts("");
+    List<Product> products = productService.listProducts("BR");
 
     assertEquals(3, products.size());
 

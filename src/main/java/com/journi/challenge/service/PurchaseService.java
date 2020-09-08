@@ -1,6 +1,5 @@
 package com.journi.challenge.service;
 
-import com.journi.challenge.models.Product;
 import com.journi.challenge.models.Purchase;
 import com.journi.challenge.models.PurchaseRequest;
 import com.journi.challenge.models.PurchaseStats;

@@ -45,8 +45,10 @@ public class ProductRepositoryTest {
   public void shouldFindProducts() {
     assertEquals(2, productsRepository.findByCurrencyCode("XXX").size());
     assertTrue(
-        productsRepository.findAll().stream().anyMatch(p -> p.getCurrencyCode().equals("EUR")));
+        productsRepository.findByCurrencyCode("XXX").stream()
+            .anyMatch(p -> p.getCurrencyCode().equals("EUR")));
     assertTrue(
-        productsRepository.findAll().stream().anyMatch(p -> p.getCurrencyCode().equals("USD")));
+        productsRepository.findByCurrencyCode("XXX").stream()
+            .anyMatch(p -> p.getCurrencyCode().equals("USD")));
   }
 }
