@@ -9,14 +9,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
- * Represents a completed Purchase.
- * invoiceNumber is unique
- * timestamp when the purchase was made. Epoch milliseconds
- * productIds list of product ids included in this purchase
- * customerName name of the customer
- * totalValue total value of this purchase, in EUR
+ * Represents a completed Purchase. invoiceNumber is unique timestamp when the purchase was made.
+ * Epoch milliseconds productIds list of product ids included in this purchase customerName name of
+ * the customer totalValue total value of this purchase, in EUR
  */
 @Data
 @Entity
@@ -24,23 +22,18 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Purchase {
+public class Purchase implements java.io.Serializable {
 
-    @Id
-    private String invoiceNumber;
+  @Id private String invoiceNumber;
 
-    @Column
-    private LocalDateTime timestamp;
+  @Column private LocalDateTime timestamp;
 
-    @OneToMany(mappedBy="id")
-    private List<Product> productIds;
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase")
+  private Set<ProductPurchase> productPurchases;
 
-    @Column
-    private String customerName;
+  @Column private String customerName;
 
-    @Column
-    private Double totalValue;
+  @Column private Double totalValue;
 
-    @Column
-    private String currencyCode;
+  @Column private String currencyCode;
 }

@@ -19,7 +19,7 @@ public class ProductService {
 
         List<Product> list = productsRepository.findByCurrencyCode(currencyConverter.getCurrencyForCountryCode(countryCode));
 
-        return list.stream().map(p -> Product.builder().id(p.getId())
+        return list.stream().map(p -> Product.builder().productId(p.getProductId())
                 .description(p.getDescription())
                 .price(currencyConverter.convertEurToCurrency(p.getCurrencyCode(), p.getPrice()))
                 .currencyCode(p.getCurrencyCode())

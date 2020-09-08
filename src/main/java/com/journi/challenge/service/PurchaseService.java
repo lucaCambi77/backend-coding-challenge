@@ -1,6 +1,8 @@
 package com.journi.challenge.service;
 
+import com.journi.challenge.models.Product;
 import com.journi.challenge.models.Purchase;
+import com.journi.challenge.models.PurchaseRequest;
 import com.journi.challenge.models.PurchaseStats;
 import com.journi.challenge.repositories.PurchasesRepository;
 import lombok.AllArgsConstructor;
@@ -44,8 +46,17 @@ public class PurchaseService {
         );
     }
 
-    public Purchase save(Purchase newPurchase) {
-        return purchasesRepository.save(newPurchase);
+    public Purchase save(PurchaseRequest purchaseRequest) {
+
+        Purchase purchase = Purchase.builder()
+                .invoiceNumber(purchaseRequest.getInvoiceNumber())
+                .timestamp(LocalDateTime.parse(purchaseRequest.getDateTime(), DateTimeFormatter.ISO_DATE_TIME))
+                //.productIds(purchaseRequest.getProductIds().stream().map(id -> Product.builder().id(id).build()).collect(Collectors.toSet()))
+                .customerName(purchaseRequest.getCustomerName())
+                .currencyCode(purchaseRequest.getCurrencyCode())
+                .totalValue(purchaseRequest.getAmount()).build();
+
+        return purchasesRepository.save(purchase);
     }
 
     public List<Purchase> findAll() {

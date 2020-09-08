@@ -27,30 +27,39 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 class ProductsControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @MockBean
-    private ProductService productService;
+  @MockBean private ProductService productService;
 
-    @Test
-    public void shouldListProductsWithCurrencyCodeAndConvertedPriceDefault() throws Exception {
-        List<Product> allProducts = new ArrayList<>();
-        allProducts.add(Product.builder().id("photobook-square-soft-cover").description("Photobook Square with Soft Cover").price(25.0).currencyCode("EUR").build());
-        allProducts.add(Product.builder().id("photobook-square-hard-cover").description("Photobook Square with Hard Cover").price(30.0).currencyCode("USD").build());
+  @Test
+  public void shouldListProductsWithCurrencyCodeAndConvertedPriceDefault() throws Exception {
+    List<Product> allProducts = new ArrayList<>();
+    allProducts.add(
+        Product.builder()
+            .productId("photobook-square-soft-cover")
+            .description("Photobook Square with Soft Cover")
+            .price(25.0)
+            .currencyCode("EUR")
+            .build());
+    allProducts.add(
+        Product.builder()
+            .productId("photobook-square-hard-cover")
+            .description("Photobook Square with Hard Cover")
+            .price(30.0)
+            .currencyCode("USD")
+            .build());
 
-        Mockito.lenient().when(productService.listProducts(anyString())).thenReturn(allProducts);
+    Mockito.lenient().when(productService.listProducts(anyString())).thenReturn(allProducts);
 
-        mockMvc.perform(get("/products"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", IsEqual.equalTo(2)));
-    }
+    mockMvc
+        .perform(get("/products"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()", IsEqual.equalTo(2)));
+  }
 
-    @Test
-    public void shouldListProductsWithCurrencyCodeAndConvertedPriceBR() throws Exception {
-        mockMvc.perform(get("/products?countryCode=BR"))
-                .andExpect(status().isOk());
-
-        verify(productService).listProducts("BR");
-    }
+  @Test
+  public void shouldListProductsWithCurrencyCodeAndConvertedPriceBR() throws Exception {
+    mockMvc.perform(get("/products?countryCode=BR")).andExpect(status().isOk());
+    verify(productService).listProducts("BR");
+  }
 }

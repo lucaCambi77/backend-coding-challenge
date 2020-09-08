@@ -32,15 +32,7 @@ public class PurchasesController {
 
     @PostMapping("/purchases")
     public Purchase save(@RequestBody PurchaseRequest purchaseRequest) {
-        Purchase newPurchase = Purchase.builder()
-                .invoiceNumber(purchaseRequest.getInvoiceNumber())
-                .timestamp(LocalDateTime.parse(purchaseRequest.getDateTime(), DateTimeFormatter.ISO_DATE_TIME))
-                .productIds(purchaseRequest.getProductIds().stream().map(id -> Product.builder().id(id).build()).collect(Collectors.toList()))
-                .customerName(purchaseRequest.getCustomerName())
-                .currencyCode(purchaseRequest.getCurrencyCode())
-                .totalValue(purchaseRequest.getAmount()).build();
-
-        return purchaseService.save(newPurchase);
+        return purchaseService.save(purchaseRequest);
     }
 
     @GetMapping("/purchases")

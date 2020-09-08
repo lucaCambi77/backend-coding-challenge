@@ -23,52 +23,115 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
 
-    @Mock
-    private ProductsRepository productsRepository;
+  @Mock private ProductsRepository productsRepository;
 
-    @Mock
-    private CurrencyConverter currencyConverter;
+  @Mock private CurrencyConverter currencyConverter;
 
-    @InjectMocks
-    private ProductService productService;
+  @InjectMocks private ProductService productService;
 
-    private static List<Product> allProducts = new ArrayList<Product>() {{
-        add(Product.builder().id("photobook-square-soft-cover").description("Photobook Square with Soft Cover").price(25.0).currencyCode("EUR").build());
-        add(Product.builder().id("photobook-square-hard-cover").description("Photobook Square with Hard Cover").price(30.0).currencyCode("USD").build());
-        add(Product.builder().id("photobook-square-hard-cover").description("Photobook Square with Hard Cover").price(30.0).currencyCode("BRL").build());
-    }};
+  private static List<Product> allProducts =
+      new ArrayList<Product>() {
+        {
+          add(
+              Product.builder()
+                  .productId("photobook-square-soft-cover")
+                  .description("Photobook Square with Soft Cover")
+                  .price(25.0)
+                  .currencyCode("EUR")
+                  .build());
+          add(
+              Product.builder()
+                  .productId("photobook-square-hard-cover")
+                  .description("Photobook Square with Hard Cover")
+                  .price(30.0)
+                  .currencyCode("USD")
+                  .build());
+          add(
+              Product.builder()
+                  .productId("photobook-square-hard-cover")
+                  .description("Photobook Square with Hard Cover")
+                  .price(30.0)
+                  .currencyCode("BRL")
+                  .build());
+        }
+      };
 
-    @BeforeEach
-    public void setUp() {
+  @BeforeEach
+  public void setUp() {
 
-        when(productsRepository.findAll()).thenReturn(allProducts);
-        ReflectionTestUtils.setField(currencyConverter, "supportedCountriesCurrency", new HashMap<String, String>() {{
+    when(productsRepository.findAll()).thenReturn(allProducts);
+
+    ReflectionTestUtils.setField(
+        currencyConverter,
+        "supportedCountriesCurrency",
+        new HashMap<String, String>() {
+          {
             put("BR", "BRL");
-        }});
-        Mockito.lenient().when(currencyConverter.getCurrencyForCountryCode(anyString())).thenCallRealMethod();
+          }
+        });
 
-        ReflectionTestUtils.setField(currencyConverter, "currencyEurRate", new HashMap<String, Double>() {{
+    Mockito.lenient()
+        .when(currencyConverter.getCurrencyForCountryCode(anyString()))
+        .thenCallRealMethod();
+
+    ReflectionTestUtils.setField(
+        currencyConverter,
+        "currencyEurRate",
+        new HashMap<String, Double>() {
+          {
             put("EUR", 1.0);
             put("BRL", 5.1480);
-        }});
-        Mockito.lenient().when(currencyConverter.convertEurToCurrency(anyString(), anyDouble())).thenCallRealMethod();
-    }
+          }
+        });
 
-    @Test
-    public void shouldConvertPrices() {
+    Mockito.lenient()
+        .when(currencyConverter.convertEurToCurrency(anyString(), anyDouble()))
+        .thenCallRealMethod();
+  }
 
-        List<Product> products = productService.listProducts("");
+  @Test
+  public void shouldConvertPrices() {
 
-        assertEquals(3, products.size());
+    List<Product> products = productService.listProducts("");
 
-        assertEquals(allProducts.stream().filter(p -> p.getCurrencyCode().equals("EUR")).findFirst().get().getPrice()
-                , products.stream().filter(p -> p.getCurrencyCode().equals("EUR")).findFirst().get().getPrice());
+    assertEquals(3, products.size());
 
-        assertEquals(allProducts.stream().filter(p -> p.getCurrencyCode().equals("USD")).findFirst().get().getPrice()
-                , products.stream().filter(p -> p.getCurrencyCode().equals("USD")).findFirst().get().getPrice());
+    assertEquals(
+        allProducts.stream()
+            .filter(p -> p.getCurrencyCode().equals("EUR"))
+            .findFirst()
+            .get()
+            .getPrice(),
+        products.stream()
+            .filter(p -> p.getCurrencyCode().equals("EUR"))
+            .findFirst()
+            .get()
+            .getPrice());
 
-        assertEquals(currencyConverter.convertEurToCurrency("BRL", allProducts.stream().filter(p -> p.getCurrencyCode().equals("BRL")).findFirst().get().getPrice())
-                , products.stream().filter(p -> p.getCurrencyCode().equals("BRL")).findFirst().get().getPrice());
-    }
+    assertEquals(
+        allProducts.stream()
+            .filter(p -> p.getCurrencyCode().equals("USD"))
+            .findFirst()
+            .get()
+            .getPrice(),
+        products.stream()
+            .filter(p -> p.getCurrencyCode().equals("USD"))
+            .findFirst()
+            .get()
+            .getPrice());
 
+    assertEquals(
+        currencyConverter.convertEurToCurrency(
+            "BRL",
+            allProducts.stream()
+                .filter(p -> p.getCurrencyCode().equals("BRL"))
+                .findFirst()
+                .get()
+                .getPrice()),
+        products.stream()
+            .filter(p -> p.getCurrencyCode().equals("BRL"))
+            .findFirst()
+            .get()
+            .getPrice());
+  }
 }

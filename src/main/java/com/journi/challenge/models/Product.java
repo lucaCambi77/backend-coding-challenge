@@ -5,32 +5,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
-/**
- * Represents a Product the company can sell.
- * Id is of course unique.
- * price is always in Euros.
- */
+/** Represents a Product the company can sell. Id is of course unique. price is always in Euros. */
 @Data
 @Entity
 @Table
 @Builder
-public class Product {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Product implements java.io.Serializable {
 
-    @Id
-    private String id;
+  @Id private String productId;
 
-    @Column
-    private String description;
+  @Column private String description;
 
-    @Column
-    private Double price;
+  @Column private Double price;
 
-    @Column
-    private String currencyCode;
+  @Column private String currencyCode;
 
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+  private Set<ProductPurchase> productPurchases;
 }
